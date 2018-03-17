@@ -7,12 +7,146 @@
     tools:context="org.cssac.karyovirtualassistantforautistickids.UserRegisterActivity">
 
     <TextView
+        android:id="@+id/registerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="Register User"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/idEmailView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="76dp"
+        android:text="Email ID :"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/idPasswordView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="32dp"
+        android:text="Password :"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idEmailView" />
+
+    <EditText
+        android:id="@+id/idEmail"
+        android:layout_width="265dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/idEmailView"
+        app:layout_constraintTop_toBottomOf="@+id/registerView" />
+
+    <EditText
+        android:id="@+id/idPassword"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toEndOf="@+id/idPasswordView"
+        app:layout_constraintTop_toBottomOf="@+id/idEmail" />
+
+    <TextView
+        android:id="@+id/idNameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="80dp"
+        android:text="Name :"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idPasswordView" />
+
+    <EditText
+        android:id="@+id/idLastName"
+        android:layout_width="123dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Last Name"
+        app:layout_constraintStart_toEndOf="@+id/idFirstName"
+        app:layout_constraintTop_toBottomOf="@+id/idPassword" />
+
+    <EditText
+        android:id="@+id/idFirstName"
+        android:layout_width="122dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="First Name"
+        app:layout_constraintStart_toEndOf="@+id/idNameView"
+        app:layout_constraintTop_toBottomOf="@+id/idPassword" />
+
+    <TextView
+        android:id="@+id/idDOBView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="52dp"
+        android:text="DOB :"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idNameView" />
+
+    <Button
+        android:id="@+id/idRegisterBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="userRegister"
+        android:text="Register"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idMonth" />
+
+    <EditText
+        android:id="@+id/idYear"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/idMonth"
+        app:layout_constraintTop_toBottomOf="@+id/idFirstName" />
+
+    <EditText
+        android:id="@+id/idMonth"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/idDate"
+        app:layout_constraintTop_toBottomOf="@+id/idFirstName" />
+
+    <EditText
+        android:id="@+id/idDate"
+        android:layout_width="68dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/idDOBView"
+        app:layout_constraintTop_toBottomOf="@+id/idFirstName" />
 
 </android.support.constraint.ConstraintLayout>
