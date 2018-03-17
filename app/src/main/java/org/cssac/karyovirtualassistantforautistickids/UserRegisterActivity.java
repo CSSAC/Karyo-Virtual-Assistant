@@ -57,7 +57,7 @@ public class UserRegisterActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser()!=null) {
             finish();
-            startActivity(new Intent(getApplicationContext(), AssistantActivity.class));
+            startActivity(new Intent(getApplicationContext(), LearningAppHomeActivity.class));
         }
     }
 
@@ -94,7 +94,7 @@ public class UserRegisterActivity extends AppCompatActivity {
 
                                 // To new Activity
                                 finish();
-                                startActivity(new Intent(getApplicationContext(), AssistantActivity.class));
+                                startActivity(new Intent(getApplicationContext(), LearningAppHomeActivity.class));
                             }
                             else {
                                 // Incorrect or Already registered
