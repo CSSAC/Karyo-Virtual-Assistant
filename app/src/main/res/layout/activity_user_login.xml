@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.cssac.karyovirtualassistantforautistickids.UserLoginActivity">
+
+    <TextView
+        android:id="@+id/idLoginView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="User Login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/idPasswordView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="32dp"
+        android:text="Pssword :"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idEmailView" />
+
+    <TextView
+        android:id="@+id/idEmailView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="40dp"
+        android:text="Email ID :"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idLoginView" />
+
+    <EditText
+        android:id="@+id/idPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toEndOf="@+id/idEmailView"
+        app:layout_constraintTop_toBottomOf="@+id/idEmail" />
+
+    <EditText
+        android:id="@+id/idEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/idEmailView"
+        app:layout_constraintTop_toBottomOf="@+id/idLoginView" />
+
+    <Button
+        android:id="@+id/idLogInBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:onClick="userLogIn"
+        android:text="Log In"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idPassword" />
+
+    <Button
+        android:id="@+id/idRegisterBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:onClick="toRegisterActivity"
+        android:text="Don't Have an Account? Register"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idLogInBtn" />
+</android.support.constraint.ConstraintLayout>

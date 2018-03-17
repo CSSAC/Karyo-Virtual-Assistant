@@ -1,5 +1,6 @@
 package org.cssac.karyovirtualassistantforautistickids;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,6 +55,10 @@ public class UserRegisterActivity extends AppCompatActivity {
         idYear = (EditText) findViewById(R.id.idYear);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser()!=null) {
+            finish();
+            startActivity(new Intent(getApplicationContext(), AssistantActivity.class));
+        }
     }
 
     public void userRegister(View view) {
@@ -86,6 +91,10 @@ public class UserRegisterActivity extends AppCompatActivity {
                                 databaseReference = FirebaseDatabase.getInstance().getReference();
                                 databaseReference.child(firebaseUser.getUid()).setValue(userInformation);
                                 Toast.makeText(UserRegisterActivity.this, REGISTRATION_SUCCESS, Toast.LENGTH_SHORT).show();
+
+                                // To new Activity
+                                finish();
+                                startActivity(new Intent(getApplicationContext(), AssistantActivity.class));
                             }
                             else {
                                 // Incorrect or Already registered
@@ -95,6 +104,11 @@ public class UserRegisterActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    public void toLoginActivity(View view) {
+        finish();
+        startActivity(new Intent(getApplicationContext(), UserLoginActivity.class));
     }
 
 }

@@ -1,5 +1,8 @@
 package org.cssac.karyovirtualassistantforautistickids.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by prrateekk on 17/3/18.
  */
