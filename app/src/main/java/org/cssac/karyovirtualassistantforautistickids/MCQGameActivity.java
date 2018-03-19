@@ -1,7 +1,6 @@
 package org.cssac.karyovirtualassistantforautistickids;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -28,14 +27,15 @@ public class MCQGameActivity extends AppCompatActivity {
     private static final String ID_OPTION_2 = "idOption2";
     private static final String ID_OPTION_3 = "idOption3";
     private static final int LOAD_SCREEN_DELAY = 5000;
-    private static final int SPEECH_DELAY = 500;
+    private static final int SPEECH_DELAY = 0;
     private static final int SET_OPTIONS_DELAY = 1000;
     private static final int RETRY_SCREEN_DELAY = 1000;
+    private static final int REWARD_SCREEN_DELAY = 3000;
 
     TextView idStatement;
     ImageView idOption1, idOption2, idOption3;
     private Drawable drawable;
-    Dialog loadScreenDialog, retryScreenDialog;
+    Dialog loadScreenDialog, retryScreenDialog, levelUpScreenDialog;
 
     List<MCQProblem> mcqProblemList;
     int mcqCounter;
@@ -134,6 +134,14 @@ public class MCQGameActivity extends AppCompatActivity {
         retryScreenDialog.show();
     }
 
+    public void showLevelUpScreen() {
+        View view = getLayoutInflater().inflate(R.layout.level_up_reward, null);
+        levelUpScreenDialog = new Dialog(this, R.style.MyTheme);
+        levelUpScreenDialog.setContentView(view);
+        levelUpScreenDialog.setCancelable(false);
+        levelUpScreenDialog.show();
+    }
+
     public void speak(String text) {
         ttsm = new TextToSpeechModule(text, this);
     }
@@ -144,7 +152,7 @@ public class MCQGameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 speak(mcqProblemList.get(mcqCounter).getStatement());
-                mcqCounter++;
+                if (mcqCounter!=mcqProblemList.size()) mcqCounter++;
             }
         }, SPEECH_DELAY);
     }
@@ -193,7 +201,7 @@ public class MCQGameActivity extends AppCompatActivity {
     public void nextMCQ() {
         Log.i("TAG", "NEXT MCQ");
         if (mcqCounter<mcqProblemList.size()) {
-            Log.i("TAG", "IN RANGE");
+            Log.i("IN RANGE", Integer.toString(mcqCounter));
             setOptionsAfterDelay();
         }
         else {
@@ -201,10 +209,29 @@ public class MCQGameActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    showRetryScreen();
+//                    showRetryScreen();
+                    levelUp();
                 }
             }, RETRY_SCREEN_DELAY);
         }
+    }
+
+    // to-do
+    public void levelUp() {
+        showLevelUpScreen();
+//        ImageView idReward = (ImageView) findViewById(R.id.idReward);
+//        int dr = getResources().getIdentifier(DRAWABLE + "apple", null, getPackageName());
+//        drawable = getResources().getDrawable(dr);
+//        idReward.setImageDrawable(drawable);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                levelUpScreenDialog.dismiss();
+                saveToMainMenu();
+            }
+        }, REWARD_SCREEN_DELAY);
     }
 
     public void retryLevel(View v) {
@@ -222,15 +249,19 @@ public class MCQGameActivity extends AppCompatActivity {
         }, SET_OPTIONS_DELAY);
     }
 
+    public void saveToMainMenu() {
+        // SAVE GAME DATA
+
+        // finish current activity which takes us to un-finishied LearningAppHomeActivity
+        finish();
+    }
+
     public void backToMainMenu(View v) {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // SAVE GAME DATA
-
-                // finish current activity which takes us to un-finishied LearningAppHomeActivity
-                finish();
+                saveToMainMenu();
             }
         }, RETRY_SCREEN_DELAY);
     }

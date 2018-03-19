@@ -18,24 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".UserLoginActivity" />
         <activity android:name=".AssistantActivity" />
-
-        <activity android:name=".LearningAppHomeActivity"
+        <activity
+            android:name=".LearningAppHomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape"
-            android:theme="@style/MyTheme">
-
-        </activity>
-
-        <activity android:name=".MCQGameActivity"
+            android:theme="@style/MyTheme"></activity>
+        <activity
+            android:name=".MCQGameActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape"
-            android:theme="@style/MyTheme">
-
-        </activity>
-
+            android:theme="@style/MyTheme"></activity>
     </application>
 
 </manifest>
