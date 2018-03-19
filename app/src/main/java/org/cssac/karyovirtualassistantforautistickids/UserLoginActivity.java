@@ -14,6 +14,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.cssac.karyovirtualassistantforautistickids.models.UserInformation;
+
+import java.io.Serializable;
+
 public class UserLoginActivity extends AppCompatActivity {
 
     private static final String EMPTY_ENTRIES = "Please fill all the Entries";
@@ -59,8 +63,9 @@ public class UserLoginActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Toast.makeText(UserLoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
                                 // To new Activity
+                                Intent intent = new Intent(getApplicationContext(), LearningAppHomeActivity.class);
                                 finish();
-                                startActivity(new Intent(getApplicationContext(), LearningAppHomeActivity.class));
+                                startActivity(intent);
                             }
                             else {
                                 Toast.makeText(UserLoginActivity.this, INCORRECT_CREDENTIALS, Toast.LENGTH_SHORT).show();

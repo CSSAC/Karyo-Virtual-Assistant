@@ -20,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.cssac.karyovirtualassistantforautistickids.models.UserInformation;
 
+import java.io.Serializable;
+
 
 public class UserRegisterActivity extends AppCompatActivity {
 
@@ -93,8 +95,9 @@ public class UserRegisterActivity extends AppCompatActivity {
                                 Toast.makeText(UserRegisterActivity.this, REGISTRATION_SUCCESS, Toast.LENGTH_SHORT).show();
 
                                 // To new Activity
+                                Intent intent = new Intent(getApplicationContext(), LearningAppHomeActivity.class);
                                 finish();
-                                startActivity(new Intent(getApplicationContext(), LearningAppHomeActivity.class));
+                                startActivity(intent);
                             }
                             else {
                                 // Incorrect or Already registered

@@ -1,5 +1,6 @@
 package org.cssac.karyovirtualassistantforautistickids.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by prrateekk on 17/3/18.
  */
 
-public class UserInformation {
+public class UserInformation implements Serializable{
 
     public String firstName;
     public String lastName;

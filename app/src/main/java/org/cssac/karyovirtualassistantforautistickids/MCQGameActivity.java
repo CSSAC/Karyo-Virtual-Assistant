@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +13,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.cssac.karyovirtualassistantforautistickids.models.MCQProblem;
+import org.cssac.karyovirtualassistantforautistickids.models.UserInformation;
 import org.cssac.karyovirtualassistantforautistickids.utils.TextToSpeechModule;
 
 import java.util.List;
@@ -23,6 +33,7 @@ public class MCQGameActivity extends AppCompatActivity {
     private static final String DRAWABLE = "drawable/";
     private static final String EMPTY_STRING = "";
     private static final String LIST_MCQ = "LIST_MCQ";
+    private static final String USER_INFORMATION = "USER_INFORMATION";
     private static final String ID_OPTION_1 = "idOption1";
     private static final String ID_OPTION_2 = "idOption2";
     private static final String ID_OPTION_3 = "idOption3";
@@ -31,6 +42,11 @@ public class MCQGameActivity extends AppCompatActivity {
     private static final int SET_OPTIONS_DELAY = 1000;
     private static final int RETRY_SCREEN_DELAY = 1000;
     private static final int REWARD_SCREEN_DELAY = 3000;
+
+    UserInformation userInformation;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    DatabaseReference databaseReference;
 
     TextView idStatement;
     ImageView idOption1, idOption2, idOption3;
@@ -60,12 +76,16 @@ public class MCQGameActivity extends AppCompatActivity {
         idOption1 = (ImageView) findViewById(R.id.idOption1);
         idOption2 = (ImageView) findViewById(R.id.idOption2);
         idOption3 = (ImageView) findViewById(R.id.idOption3);
-
         animationZoomIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
         animationZoomOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_out);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         Intent intent = getIntent();
         mcqProblemList = (List<MCQProblem>) intent.getSerializableExtra(LIST_MCQ);
+        userInformation = (UserInformation) intent.getSerializableExtra(USER_INFORMATION);
 
         speak(EMPTY_STRING);
         mcqCounter = 0;
@@ -114,6 +134,7 @@ public class MCQGameActivity extends AppCompatActivity {
             public void run() {
                 loadScreenDialog.dismiss();
                 speakAfterDelay();
+                Log.i("USER INFORMATION", userInformation.firstName);
             }
         }, LOAD_SCREEN_DELAY);
     }
@@ -209,8 +230,8 @@ public class MCQGameActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-//                    showRetryScreen();
-                    levelUp();
+                    showRetryScreen();
+//                    levelUp();
                 }
             }, RETRY_SCREEN_DELAY);
         }
@@ -218,6 +239,7 @@ public class MCQGameActivity extends AppCompatActivity {
 
     // to-do
     public void levelUp() {
+        saveUserInformation();
         showLevelUpScreen();
 //        ImageView idReward = (ImageView) findViewById(R.id.idReward);
 //        int dr = getResources().getIdentifier(DRAWABLE + "apple", null, getPackageName());
@@ -229,7 +251,7 @@ public class MCQGameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 levelUpScreenDialog.dismiss();
-                saveToMainMenu();
+                finish();
             }
         }, REWARD_SCREEN_DELAY);
     }
@@ -237,32 +259,34 @@ public class MCQGameActivity extends AppCompatActivity {
     public void retryLevel(View v) {
         mcqCounter = 0;
         setOptions();
+        saveUserInformation();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 // SAVE GAME DATA
-
                 retryScreenDialog.dismiss();
                 speakAfterDelay();
             }
         }, SET_OPTIONS_DELAY);
     }
 
-    public void saveToMainMenu() {
+    public void saveUserInformation() {
         // SAVE GAME DATA
+        showLoadScreen();
 
-        // finish current activity which takes us to un-finishied LearningAppHomeActivity
-        finish();
+        databaseReference.child(firebaseUser.getUid()).setValue(userInformation)
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        loadScreenDialog.dismiss();
+                    }
+                });
     }
 
     public void backToMainMenu(View v) {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                saveToMainMenu();
-            }
-        }, RETRY_SCREEN_DELAY);
+        saveUserInformation();
+        finish();
+        startActivity(new Intent(this, LearningAppHomeActivity.class));
     }
 }
