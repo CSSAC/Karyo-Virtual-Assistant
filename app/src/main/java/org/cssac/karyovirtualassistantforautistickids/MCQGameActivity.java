@@ -13,7 +13,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,10 +55,14 @@ public class MCQGameActivity extends AppCompatActivity {
     List<MCQProblem> mcqProblemList;
     int mcqCounter;
     String correctImage;
+    int level;
+    String tag;
 
     Animation animationZoomIn;
     Animation animationZoomOut;
     TextToSpeechModule ttsm;
+
+    int mcqAttempt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,8 @@ public class MCQGameActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mcqProblemList = (List<MCQProblem>) intent.getSerializableExtra(LIST_MCQ);
         userInformation = (UserInformation) intent.getSerializableExtra(USER_INFORMATION);
+        tag = mcqProblemList.get(0).getTag();
+        level = mcqProblemList.get(0).getLevelDifficulty();
 
         speak(EMPTY_STRING);
         mcqCounter = 0;
@@ -98,7 +103,8 @@ public class MCQGameActivity extends AppCompatActivity {
                 idOption1.startAnimation(animationZoomOut);
 
                 idStatement.setText(correctImage + "idOption1");
-                if (correctImage==ID_OPTION_1) nextMCQ();
+                if (correctImage==ID_OPTION_1) correctAttempt();
+                else wrongAttempt();
             }
         });
 
@@ -110,7 +116,8 @@ public class MCQGameActivity extends AppCompatActivity {
                 idOption2.startAnimation(animationZoomOut);
 
                 idStatement.setText(correctImage + "idOption2");
-                if (correctImage==ID_OPTION_2) nextMCQ();
+                if (correctImage==ID_OPTION_2) correctAttempt();
+                else wrongAttempt();
             }
         });
 
@@ -122,7 +129,8 @@ public class MCQGameActivity extends AppCompatActivity {
                 idOption3.startAnimation(animationZoomOut);
 
                 idStatement.setText(correctImage + "idOption3");
-                if (correctImage==ID_OPTION_3) nextMCQ();
+                if (correctImage==ID_OPTION_3) correctAttempt();
+                else wrongAttempt();
             }
         });
 
@@ -137,6 +145,53 @@ public class MCQGameActivity extends AppCompatActivity {
                 Log.i("USER INFORMATION", userInformation.firstName);
             }
         }, LOAD_SCREEN_DELAY);
+    }
+
+    public void promptCorrectImage() {
+        if (correctImage.equals(ID_OPTION_1)) {
+            idOption1.startAnimation(animationZoomIn);
+            idOption1.startAnimation(animationZoomOut);
+        }
+        else if (correctImage.equals(ID_OPTION_2)) {
+            idOption2.startAnimation(animationZoomIn);
+            idOption2.startAnimation(animationZoomOut);
+        }
+        else {
+            idOption3.startAnimation(animationZoomIn);
+            idOption3.startAnimation(animationZoomOut);
+        }
+    }
+
+    public void revealCorrectImage() {
+        if (correctImage.equals(ID_OPTION_1)) {
+            idOption1.startAnimation(animationZoomIn);
+            idOption1.startAnimation(animationZoomOut);
+        }
+        else if (correctImage.equals(ID_OPTION_2)) {
+            idOption2.startAnimation(animationZoomIn);
+            idOption2.startAnimation(animationZoomOut);
+        }
+        else {
+            idOption3.startAnimation(animationZoomIn);
+            idOption3.startAnimation(animationZoomOut);
+        }
+    }
+
+    public void wrongAttempt() {
+        mcqAttempt++;
+        if (level==1 || mcqAttempt==2) {
+            revealCorrectImage();
+            nextMCQ();
+        }
+        else {
+            promptCorrectImage();
+        }
+    }
+
+    public void correctAttempt() {
+        // Reinforcement
+        revealCorrectImage();
+        nextMCQ();
     }
 
     public void showLoadScreen() {
@@ -204,6 +259,8 @@ public class MCQGameActivity extends AppCompatActivity {
         else if (options[2].equals(correctAns)){
             correctImage = ID_OPTION_3;
         }
+
+        mcqAttempt = 0;
 
         idStatement.setText(correctAns + correctImage + " " + options[0] + options[1] + options[2]);
     }

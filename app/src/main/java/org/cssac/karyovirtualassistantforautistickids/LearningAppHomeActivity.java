@@ -86,7 +86,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
     }
 
     public void toMCQGameActivity(View view) {
-        List<MCQProblem> mcqProblemList = mcqHandler.getAllMCQ();
+        List<MCQProblem> mcqProblemList = mcqHandler.getMCQByTagAndLevel("colour", userInformation.level.get("colour"));
         TextView textView = (TextView) findViewById(R.id.textView);
         Log.i("Statement", mcqProblemList.get(0).getStatement());
         textView.setText(Integer.toString(mcqProblemList.size()));

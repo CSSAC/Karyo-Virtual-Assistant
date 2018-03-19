@@ -2,6 +2,7 @@ package org.cssac.karyovirtualassistantforautistickids.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,6 +15,8 @@ public class UserInformation implements Serializable{
     public String lastName;
     public int dobDate, dobMonth, dobYear;
 
+    public HashMap<String, Integer> level;
+
     public UserInformation() {
 
     }
@@ -24,5 +27,7 @@ public class UserInformation implements Serializable{
         this.dobDate = dobDate;
         this.dobMonth = dobMonth;
         this.dobYear = dobYear;
+        level = new HashMap<>();
+        level.put("colour", 1);
     }
 }

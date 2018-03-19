@@ -90,6 +90,35 @@ public class MCQHandler extends SQLiteAssetHelper {
         sqLiteDatabase.close();
     }
 
+    public List<MCQProblem> getMCQByTagAndLevel(String tag, int lvl) {
+        List<MCQProblem> listMCQ = new ArrayList<MCQProblem>();
+        String SELECT_QUERY = "SELECT * from " + MCQ_TABLE + " WHERE tag = '" + tag + "' AND levelDifficulty = " + Integer.toString(lvl);
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        Cursor cursor = sqLiteDatabase.rawQuery(SELECT_QUERY, null);
+        if (cursor.moveToFirst()) {
+            do {
+                MCQProblem mcq= new MCQProblem();
+
+                mcq.setId(Integer.parseInt(cursor.getString(0)));
+                mcq.setStatement(cursor.getString(1));
+
+                String options[] = new String[3];
+                options[0] = cursor.getString(2);
+                options[1] = cursor.getString(3);
+                options[2] = cursor.getString(4);
+                mcq.setOptions(options);
+
+                mcq.setCorrectAnswer(cursor.getString(5));
+                mcq.setTag(cursor.getString(6));
+                mcq.setLevelDifficulty(Integer.parseInt(cursor.getString(7)));
+
+                listMCQ.add(mcq);
+            } while (cursor.moveToNext());
+        }
+        return listMCQ;
+    }
+
     public List<MCQProblem> getAllMCQ() {
         List<MCQProblem> listMCQ = new ArrayList<MCQProblem>();
 
