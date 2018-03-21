@@ -27,7 +27,6 @@ import org.cssac.karyovirtualassistantforautistickids.utils.TextToSpeechModule;
 
 import java.util.List;
 
-
 public class MCQGameActivity extends AppCompatActivity {
     private static final String DRAWABLE = "drawable/";
     private static final String EMPTY_STRING = "";
@@ -41,6 +40,8 @@ public class MCQGameActivity extends AppCompatActivity {
     private static final int SET_OPTIONS_DELAY = 1000;
     private static final int RETRY_SCREEN_DELAY = 1000;
     private static final int REWARD_SCREEN_DELAY = 3000;
+
+    private static final int LEVEL_UP_THRESHOLD = 80;
 
     UserInformation userInformation;
     FirebaseAuth firebaseAuth;
@@ -57,6 +58,7 @@ public class MCQGameActivity extends AppCompatActivity {
     String correctImage;
     int level;
     String tag;
+    int numberCorrect;
 
     Animation animationZoomIn;
     Animation animationZoomOut;
@@ -94,6 +96,7 @@ public class MCQGameActivity extends AppCompatActivity {
 
         speak(EMPTY_STRING);
         mcqCounter = 0;
+        numberCorrect = 0;
 
         idOption1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +193,7 @@ public class MCQGameActivity extends AppCompatActivity {
 
     public void correctAttempt() {
         // Reinforcement
+        numberCorrect++;
         revealCorrectImage();
         nextMCQ();
     }
@@ -287,8 +291,15 @@ public class MCQGameActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    showRetryScreen();
-//                    levelUp();
+                    int per = (numberCorrect*100)/mcqProblemList.size();
+
+                    Log.i("Percentange", Integer.toString(per));
+                    if (per >= LEVEL_UP_THRESHOLD) {
+                        levelUp();
+                    }
+                    else {
+                        showRetryScreen();
+                    }
                 }
             }, RETRY_SCREEN_DELAY);
         }
@@ -296,6 +307,16 @@ public class MCQGameActivity extends AppCompatActivity {
 
     // to-do
     public void levelUp() {
+        Log.i("Level Up", "UPDATE");
+        if (level<userInformation.maxLevel.get(tag)) {
+            userInformation.level.put(tag, level+1);
+        }
+        else {
+            // highest level done
+            // restart from level 1
+            userInformation.level.put(tag, 1);
+        }
+
         saveUserInformation();
         showLevelUpScreen();
 //        ImageView idReward = (ImageView) findViewById(R.id.idReward);
@@ -315,6 +336,7 @@ public class MCQGameActivity extends AppCompatActivity {
 
     public void retryLevel(View v) {
         mcqCounter = 0;
+        numberCorrect = 0;
         setOptions();
         saveUserInformation();
         final Handler handler = new Handler();
