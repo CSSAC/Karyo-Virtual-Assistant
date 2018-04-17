@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,9 +19,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.cssac.karyovirtualassistantforautistickids.constants.Tags;
 import org.cssac.karyovirtualassistantforautistickids.databaseHandlers.MCQHandler;
 import org.cssac.karyovirtualassistantforautistickids.models.MCQProblem;
 import org.cssac.karyovirtualassistantforautistickids.models.UserInformation;
+import org.cssac.karyovirtualassistantforautistickids.utils.TagsAdapter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -37,6 +42,19 @@ public class LearningAppHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_app_home);
+
+        GridView gridView = (GridView) findViewById(R.id.gridView);
+        String tags[] = {"Colours", "Shapes", "Numbers", "Emotions", "Animals", "Fruits"};
+        TagsAdapter tagsAdapter = new TagsAdapter(this, tags);
+        gridView.setAdapter(tagsAdapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                String tag = Tags.TAGS[position];
+                Toast.makeText(LearningAppHomeActivity.this, tag, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         mcqHandler = new MCQHandler(this);
 

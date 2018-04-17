@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.cssac.karyovirtualassistantforautistickids.models.MCQProblem;
 import org.cssac.karyovirtualassistantforautistickids.models.UserInformation;
 import org.cssac.karyovirtualassistantforautistickids.utils.TextToSpeechModule;
+import org.cssac.karyovirtualassistantforautistickids.utils.BounceInterpolator;
 
 import java.util.List;
 
@@ -58,10 +59,11 @@ public class MCQGameActivity extends AppCompatActivity {
     String correctImage;
     int level;
     String tag;
-    int numberCorrect;
+    int numberCorrect, totalAttempts;
 
     Animation animationZoomIn;
     Animation animationZoomOut;
+    Animation animationBounce;
     TextToSpeechModule ttsm;
 
     int mcqAttempt;
@@ -83,6 +85,9 @@ public class MCQGameActivity extends AppCompatActivity {
         idOption3 = (ImageView) findViewById(R.id.idOption3);
         animationZoomIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
         animationZoomOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_out);
+        animationBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        BounceInterpolator interpolator = new BounceInterpolator(0.2, 20.0);
+        animationBounce.setInterpolator(interpolator);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -97,13 +102,15 @@ public class MCQGameActivity extends AppCompatActivity {
         speak(EMPTY_STRING);
         mcqCounter = 0;
         numberCorrect = 0;
+        totalAttempts = 0;
 
         idOption1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i("ID", "idOption1");
-                idOption1.startAnimation(animationZoomIn);
-                idOption1.startAnimation(animationZoomOut);
+                idOption1.startAnimation(animationBounce);
+
+                totalAttempts++;
 
                 idStatement.setText(correctImage + "idOption1");
                 if (correctImage==ID_OPTION_1) correctAttempt();
@@ -115,8 +122,9 @@ public class MCQGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.i("ID", "idOption2");
-                idOption2.startAnimation(animationZoomIn);
-                idOption2.startAnimation(animationZoomOut);
+                idOption2.startAnimation(animationBounce);
+
+                totalAttempts++;
 
                 idStatement.setText(correctImage + "idOption2");
                 if (correctImage==ID_OPTION_2) correctAttempt();
@@ -128,8 +136,9 @@ public class MCQGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.i("ID", "idOption3");
-                idOption3.startAnimation(animationZoomIn);
-                idOption3.startAnimation(animationZoomOut);
+                idOption3.startAnimation(animationBounce);
+
+                totalAttempts++;
 
                 idStatement.setText(correctImage + "idOption3");
                 if (correctImage==ID_OPTION_3) correctAttempt();
@@ -291,7 +300,7 @@ public class MCQGameActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    int per = (numberCorrect*100)/mcqProblemList.size();
+                    int per = (numberCorrect*100)/totalAttempts;
 
                     Log.i("Percentange", Integer.toString(per));
                     if (per >= LEVEL_UP_THRESHOLD) {
@@ -337,6 +346,8 @@ public class MCQGameActivity extends AppCompatActivity {
     public void retryLevel(View v) {
         mcqCounter = 0;
         numberCorrect = 0;
+        totalAttempts++;
+
         setOptions();
         saveUserInformation();
         final Handler handler = new Handler();
