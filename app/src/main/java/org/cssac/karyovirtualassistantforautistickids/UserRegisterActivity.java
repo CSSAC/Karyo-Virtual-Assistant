@@ -8,6 +8,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +41,9 @@ public class UserRegisterActivity extends AppCompatActivity {
     private EditText idPassword;
     private EditText idFirstName, idLastName;
     private EditText idDate, idMonth, idYear;
+    private ImageView register_btn;
+    private TextView loginText;
+    private ProgressBar spinner;
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
@@ -56,6 +62,25 @@ public class UserRegisterActivity extends AppCompatActivity {
         idMonth = (EditText) findViewById(R.id.idMonth);
         idYear = (EditText) findViewById(R.id.idYear);
 
+        register_btn = (ImageView) findViewById(R.id.register_btn);
+        loginText = (TextView) findViewById(R.id.loginText);
+        spinner = (ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
+
+        register_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userRegister();
+            }
+        });
+
+        loginText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toLoginActivity();
+            }
+        });
+
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser()!=null) {
             finish();
@@ -63,7 +88,7 @@ public class UserRegisterActivity extends AppCompatActivity {
         }
     }
 
-    public void userRegister(View view) {
+    public void userRegister() {
         email = idEmail.getText().toString();
         password = idPassword.getText().toString();
         firstName = idFirstName.getText().toString();
@@ -79,6 +104,7 @@ public class UserRegisterActivity extends AppCompatActivity {
         }
         // No Empty EditText
         else {
+            spinner.setVisibility(View.VISIBLE);
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -104,12 +130,13 @@ public class UserRegisterActivity extends AppCompatActivity {
                                 Toast.makeText(UserRegisterActivity.this, EMAIL_REGISTRATION_ERROR, Toast.LENGTH_SHORT).show();
                                 Log.i("Registration Failed", EMAIL_REGISTRATION_ERROR);
                             }
+                            spinner.setVisibility(View.GONE);
                         }
                     });
         }
     }
 
-    public void toLoginActivity(View view) {
+    public void toLoginActivity() {
         finish();
         startActivity(new Intent(getApplicationContext(), UserLoginActivity.class));
     }

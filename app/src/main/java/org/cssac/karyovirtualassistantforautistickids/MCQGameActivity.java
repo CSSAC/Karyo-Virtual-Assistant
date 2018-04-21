@@ -49,8 +49,8 @@ public class MCQGameActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
 
-    TextView idStatement;
     ImageView idOption1, idOption2, idOption3;
+    ImageView prompter1, prompter2, prompter3;
     private Drawable drawable;
     Dialog loadScreenDialog, retryScreenDialog, levelUpScreenDialog;
 
@@ -64,6 +64,7 @@ public class MCQGameActivity extends AppCompatActivity {
     Animation animationZoomIn;
     Animation animationZoomOut;
     Animation animationBounce;
+    Animation animationBlink;
     TextToSpeechModule ttsm;
 
     int mcqAttempt;
@@ -79,13 +80,20 @@ public class MCQGameActivity extends AppCompatActivity {
 
         showLoadScreen();
 
-        idStatement = (TextView) findViewById(R.id.idStatement);
         idOption1 = (ImageView) findViewById(R.id.idOption1);
         idOption2 = (ImageView) findViewById(R.id.idOption2);
         idOption3 = (ImageView) findViewById(R.id.idOption3);
+        prompter1 = (ImageView) findViewById(R.id.prompter1);
+        prompter2 = (ImageView) findViewById(R.id.prompter2);
+        prompter3 = (ImageView) findViewById(R.id.prompter3);
+        prompter1.setVisibility(View.INVISIBLE);
+        prompter2.setVisibility(View.INVISIBLE);
+        prompter3.setVisibility(View.INVISIBLE);
+
         animationZoomIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
         animationZoomOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_out);
         animationBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        animationBlink = AnimationUtils.loadAnimation(this, R.anim.blink_prompt);
         BounceInterpolator interpolator = new BounceInterpolator(0.2, 20.0);
         animationBounce.setInterpolator(interpolator);
 
@@ -112,7 +120,6 @@ public class MCQGameActivity extends AppCompatActivity {
 
                 totalAttempts++;
 
-                idStatement.setText(correctImage + "idOption1");
                 if (correctImage==ID_OPTION_1) correctAttempt();
                 else wrongAttempt();
             }
@@ -126,7 +133,6 @@ public class MCQGameActivity extends AppCompatActivity {
 
                 totalAttempts++;
 
-                idStatement.setText(correctImage + "idOption2");
                 if (correctImage==ID_OPTION_2) correctAttempt();
                 else wrongAttempt();
             }
@@ -140,7 +146,6 @@ public class MCQGameActivity extends AppCompatActivity {
 
                 totalAttempts++;
 
-                idStatement.setText(correctImage + "idOption3");
                 if (correctImage==ID_OPTION_3) correctAttempt();
                 else wrongAttempt();
             }
@@ -189,8 +194,21 @@ public class MCQGameActivity extends AppCompatActivity {
         }
     }
 
+    public void showPrompter() {
+        if (correctImage.equals(ID_OPTION_1)) {
+            prompter1.startAnimation(animationBlink);
+        }
+        else if (correctImage.equals(ID_OPTION_2)) {
+            prompter2.startAnimation(animationBlink);
+        }
+        else {
+            prompter3.startAnimation(animationBlink);
+        }
+    }
+
     public void wrongAttempt() {
         mcqAttempt++;
+        showPrompter();
         if (level==1 || mcqAttempt==2) {
             revealCorrectImage();
             nextMCQ();
@@ -241,6 +259,7 @@ public class MCQGameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 speak(mcqProblemList.get(mcqCounter).getStatement());
+                if (level==1) showPrompter();
                 if (mcqCounter!=mcqProblemList.size()) mcqCounter++;
             }
         }, SPEECH_DELAY);
@@ -249,7 +268,6 @@ public class MCQGameActivity extends AppCompatActivity {
     public void setOptions() {
         String options[] = mcqProblemList.get(mcqCounter).getOptions();
         String correctAns = mcqProblemList.get(mcqCounter).getCorrectAnswer();
-        idStatement.setText(mcqProblemList.get(mcqCounter).getStatement() + correctAns);
 
         int dr = getResources().getIdentifier(DRAWABLE + options[0], null, getPackageName());
         drawable = getResources().getDrawable(dr);
@@ -274,8 +292,6 @@ public class MCQGameActivity extends AppCompatActivity {
         }
 
         mcqAttempt = 0;
-
-        idStatement.setText(correctAns + correctImage + " " + options[0] + options[1] + options[2]);
     }
 
     public void setOptionsAfterDelay() {

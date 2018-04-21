@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +28,9 @@ public class UserLoginActivity extends AppCompatActivity {
 
     private EditText idEmail;
     private EditText idPassword;
+    private ImageView login_btn;
+    private TextView registerText;
+    private ProgressBar spinner;
 
     private String email;
     private String password;
@@ -39,6 +45,25 @@ public class UserLoginActivity extends AppCompatActivity {
         idEmail = (EditText) findViewById(R.id.idEmail);
         idPassword = (EditText) findViewById(R.id.idPassword);
 
+        login_btn = (ImageView) findViewById(R.id.login_btn);
+        registerText = (TextView) findViewById(R.id.registerText);
+
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
+
+        login_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userLogIn();
+            }
+        });
+
+        registerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toRegisterActivity();
+            }
+        });
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser()!=null) {
             finish();
@@ -46,7 +71,7 @@ public class UserLoginActivity extends AppCompatActivity {
         }
     }
 
-    public void userLogIn(View view) {
+    public void userLogIn() {
         email = idEmail.getText().toString();
         password = idPassword.getText().toString();
 
@@ -56,11 +81,13 @@ public class UserLoginActivity extends AppCompatActivity {
         }
         // No Empty EditText
         else {
+            spinner.setVisibility(View.VISIBLE);
             firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                spinner.setVisibility(View.GONE);
                                 Toast.makeText(UserLoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
                                 // To new Activity
                                 Intent intent = new Intent(getApplicationContext(), LearningAppHomeActivity.class);
@@ -68,6 +95,7 @@ public class UserLoginActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                             else {
+                                spinner.setVisibility(View.GONE);
                                 Toast.makeText(UserLoginActivity.this, INCORRECT_CREDENTIALS, Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -75,7 +103,7 @@ public class UserLoginActivity extends AppCompatActivity {
         }
     }
 
-    public void toRegisterActivity(View view) {
+    public void toRegisterActivity() {
         finish();
         startActivity(new Intent(getApplicationContext(), UserRegisterActivity.class));
     }
