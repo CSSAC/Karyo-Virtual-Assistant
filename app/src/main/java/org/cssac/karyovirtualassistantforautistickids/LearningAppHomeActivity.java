@@ -44,15 +44,18 @@ public class LearningAppHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_learning_app_home);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
-        String tags[] = {"Colours", "Shapes", "Numbers", "Emotions", "Animals", "Fruits"};
-        TagsAdapter tagsAdapter = new TagsAdapter(this, tags);
+        TagsAdapter tagsAdapter = new TagsAdapter(this);
         gridView.setAdapter(tagsAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 String tag = Tags.TAGS[position];
-                Toast.makeText(LearningAppHomeActivity.this, tag, Toast.LENGTH_SHORT).show();
+
+                List<MCQProblem> mcqProblemList = mcqHandler.getMCQByTagAndLevel(tag, userInformation.level.get(tag));
+                Toast.makeText(LearningAppHomeActivity.this, Integer.toString(mcqProblemList.size()), Toast.LENGTH_SHORT).show();
+                intent.putExtra(LIST_MCQ, (Serializable) mcqProblemList);
+                startActivity(intent);
             }
         });
 
@@ -79,6 +82,8 @@ public class LearningAppHomeActivity extends AppCompatActivity {
         loadScreenDialog = new Dialog(this, R.style.MyTheme);
         loadScreenDialog.setContentView(view);
         loadScreenDialog.setCancelable(false);
+        TextView text = (TextView) view.findViewById(R.id.load_message);
+        text.setText("Logging In...Make sure you're connected to Internet");
         loadScreenDialog.show();
     }
 
@@ -105,10 +110,11 @@ public class LearningAppHomeActivity extends AppCompatActivity {
 
     public void toMCQGameActivity(View view) {
         List<MCQProblem> mcqProblemList = mcqHandler.getMCQByTagAndLevel("colour", userInformation.level.get("colour"));
+        Log.i("SIZE  ", Integer.toString(mcqProblemList.size()));
         TextView textView = (TextView) findViewById(R.id.textView);
-        Log.i("Statement", mcqProblemList.get(0).getStatement());
+//        Log.i("Statement", mcqProblemList.get(0).getStatement());
         textView.setText(Integer.toString(mcqProblemList.size()));
-        Log.i("Size", Integer.toString(mcqProblemList.size()));
+        Log.i("LEVEL", Integer.toString(userInformation.level.get("colour")));
 
         intent.putExtra(LIST_MCQ, (Serializable) mcqProblemList);
 //        intent.putExtra(USER_INFORMATION, (Serializable) userInformation);

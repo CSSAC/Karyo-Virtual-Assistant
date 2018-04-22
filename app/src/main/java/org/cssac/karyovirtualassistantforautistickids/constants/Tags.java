@@ -5,5 +5,5 @@ package org.cssac.karyovirtualassistantforautistickids.constants;
  */
 
 public class Tags {
-    public static final String[] TAGS = {"strawberry", "banana", "apple", "grapes", "orange", "pear"};
+    public static final String[] TAGS = {"colour", "shapes", "numbers", "animals", "fruits", "vegetables", "emotions"};
 }

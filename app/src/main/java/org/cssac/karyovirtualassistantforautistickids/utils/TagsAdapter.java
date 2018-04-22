@@ -21,9 +21,9 @@ public class TagsAdapter extends BaseAdapter {
     private final Context mContext;
     private final String[] tags;
 
-    public TagsAdapter(Context mContext, String[] tags) {
+    public TagsAdapter(Context mContext) {
         this.mContext = mContext;
-        this.tags = tags;
+        this.tags = Tags.TAGS;
     }
 
     @Override
@@ -53,11 +53,11 @@ public class TagsAdapter extends BaseAdapter {
         final TextView authorTextView = (TextView)convertView.findViewById(R.id.textview_book_author);
         final ImageView imageViewFavorite = (ImageView)convertView.findViewById(R.id.imageview_favorite);
 
-        int dr = mContext.getResources().getIdentifier("drawable/" + Tags.TAGS[idx], null, mContext.getPackageName());
+        int dr = mContext.getResources().getIdentifier("drawable/" + tags[idx] + "_tag", null, mContext.getPackageName());
         Drawable drawable = mContext.getResources().getDrawable(dr);
         imageViewFavorite.setImageDrawable(drawable);
 
-        nameTextView.setText(Tags.TAGS[idx]);
+        nameTextView.setText(tags[idx]);
         authorTextView.setText("Book Author");
 
         return convertView;

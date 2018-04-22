@@ -28,6 +28,8 @@ import org.cssac.karyovirtualassistantforautistickids.utils.BounceInterpolator;
 
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class MCQGameActivity extends AppCompatActivity {
     private static final String DRAWABLE = "drawable/";
     private static final String EMPTY_STRING = "";
@@ -53,6 +55,7 @@ public class MCQGameActivity extends AppCompatActivity {
     ImageView prompter1, prompter2, prompter3;
     private Drawable drawable;
     Dialog loadScreenDialog, retryScreenDialog, levelUpScreenDialog;
+    GifImageView gif;
 
     List<MCQProblem> mcqProblemList;
     int mcqCounter;
@@ -89,6 +92,7 @@ public class MCQGameActivity extends AppCompatActivity {
         prompter1.setVisibility(View.INVISIBLE);
         prompter2.setVisibility(View.INVISIBLE);
         prompter3.setVisibility(View.INVISIBLE);
+        gif = (GifImageView) findViewById(R.id.gif);
 
         animationZoomIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
         animationZoomOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_out);
@@ -220,6 +224,7 @@ public class MCQGameActivity extends AppCompatActivity {
 
     public void correctAttempt() {
         // Reinforcement
+        gif.setImageResource(R.drawable.smiley_jump);
         numberCorrect++;
         revealCorrectImage();
         nextMCQ();
@@ -230,6 +235,8 @@ public class MCQGameActivity extends AppCompatActivity {
         loadScreenDialog = new Dialog(this, R.style.MyTheme);
         loadScreenDialog.setContentView(view);
         loadScreenDialog.setCancelable(false);
+        TextView text = (TextView) view.findViewById(R.id.load_message);
+        text.setText("Loading Game Data...");
         loadScreenDialog.show();
     }
 
