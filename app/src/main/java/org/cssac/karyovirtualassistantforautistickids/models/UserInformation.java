@@ -18,6 +18,9 @@ public class UserInformation implements Serializable{
     public HashMap<String, Integer> level;
     public HashMap<String, Integer> maxLevel;
 
+    public HashMap<String, Integer> attempts;
+    public HashMap<String, Integer> correctAttempts;
+
     public UserInformation() {
 
     }
@@ -28,6 +31,7 @@ public class UserInformation implements Serializable{
         this.dobDate = dobDate;
         this.dobMonth = dobMonth;
         this.dobYear = dobYear;
+
         level = new HashMap<>();
         level.put("colour", 1);
         level.put("shapes", 1);
@@ -45,5 +49,23 @@ public class UserInformation implements Serializable{
         maxLevel.put("vegetables", 2);
         maxLevel.put("numbers", 2);
         maxLevel.put("emotions", 2);
+
+        attempts = new HashMap<>();
+        attempts.put("colour", 0);
+        attempts.put("shapes", 0);
+        attempts.put("animals", 0);
+        attempts.put("fruits", 0);
+        attempts.put("vegetables", 0);
+        attempts.put("numbers", 0);
+        attempts.put("emotions", 0);
+
+        correctAttempts = new HashMap<>();
+        correctAttempts.put("colour", 0);
+        correctAttempts.put("shapes", 0);
+        correctAttempts.put("animals", 0);
+        correctAttempts.put("fruits", 0);
+        correctAttempts.put("vegetables", 0);
+        correctAttempts.put("numbers", 0);
+        correctAttempts.put("emotions", 0);
     }
 }

@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -68,6 +69,7 @@ public class MCQGameActivity extends AppCompatActivity {
 
     Animation animationZoomIn;
     Animation animationZoomOut;
+    Animation animationZoomBounce;
     Animation animationBounce;
     Animation animationBlink;
     TextToSpeechModule ttsm;
@@ -100,10 +102,12 @@ public class MCQGameActivity extends AppCompatActivity {
 
         animationZoomIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
         animationZoomOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_out);
-        animationBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
         animationBlink = AnimationUtils.loadAnimation(this, R.anim.blink_prompt);
+        animationBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
         BounceInterpolator interpolator = new BounceInterpolator(0.2, 20.0);
         animationBounce.setInterpolator(interpolator);
+        animationZoomBounce = AnimationUtils.loadAnimation(this, R.anim.zoom_bounce);
+        animationZoomBounce.setInterpolator(interpolator);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -126,7 +130,7 @@ public class MCQGameActivity extends AppCompatActivity {
                 Log.i("ID", "idOption1");
 
                 if (controlFrozen==false) {
-                    idOption1.startAnimation(animationBounce);
+//                    idOption1.startAnimation(animationBounce);
 
                     totalAttempts++;
 
@@ -142,7 +146,7 @@ public class MCQGameActivity extends AppCompatActivity {
                 Log.i("ID", "idOption2");
 
                 if (controlFrozen==false) {
-                    idOption2.startAnimation(animationBounce);
+//                    idOption2.startAnimation(animationBounce);
 
                     totalAttempts++;
 
@@ -158,7 +162,7 @@ public class MCQGameActivity extends AppCompatActivity {
                 Log.i("ID", "idOption3");
 
                 if (controlFrozen==false) {
-                    idOption3.startAnimation(animationBounce);
+//                    idOption3.startAnimation(animationBounce);
 
                     totalAttempts++;
 
@@ -181,33 +185,15 @@ public class MCQGameActivity extends AppCompatActivity {
         }, LOAD_SCREEN_DELAY);
     }
 
-    public void promptCorrectImage() {
-        if (correctImage.equals(ID_OPTION_1)) {
-            idOption1.startAnimation(animationZoomIn);
-            idOption1.startAnimation(animationZoomOut);
-        }
-        else if (correctImage.equals(ID_OPTION_2)) {
-            idOption2.startAnimation(animationZoomIn);
-            idOption2.startAnimation(animationZoomOut);
-        }
-        else {
-            idOption3.startAnimation(animationZoomIn);
-            idOption3.startAnimation(animationZoomOut);
-        }
-    }
-
     public void revealCorrectImage() {
         if (correctImage.equals(ID_OPTION_1)) {
-            idOption1.startAnimation(animationZoomIn);
-            idOption1.startAnimation(animationZoomOut);
+            idOption1.startAnimation(animationZoomBounce);
         }
         else if (correctImage.equals(ID_OPTION_2)) {
-            idOption2.startAnimation(animationZoomIn);
-            idOption2.startAnimation(animationZoomOut);
+            idOption2.startAnimation(animationZoomBounce);
         }
         else {
-            idOption3.startAnimation(animationZoomIn);
-            idOption3.startAnimation(animationZoomOut);
+            idOption3.startAnimation(animationZoomBounce);
         }
     }
 
@@ -225,13 +211,12 @@ public class MCQGameActivity extends AppCompatActivity {
 
     public void wrongAttempt() {
         mcqAttempt++;
-        showPrompter();
         if (level==1 || mcqAttempt==2) {
             revealCorrectImage();
             nextMCQ();
         }
         else {
-            promptCorrectImage();
+            showPrompter();
         }
     }
 
@@ -338,6 +323,8 @@ public class MCQGameActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    userInformation.correctAttempts.put(tag, userInformation.correctAttempts.get(tag)+numberCorrect);
+                    userInformation.attempts.put(tag, userInformation.attempts.get(tag)+totalAttempts);
                     int per = (numberCorrect*100)/totalAttempts;
 
                     Log.i("Percentange", Integer.toString(per));
@@ -384,7 +371,7 @@ public class MCQGameActivity extends AppCompatActivity {
     public void retryLevel(View v) {
         mcqCounter = 0;
         numberCorrect = 0;
-        totalAttempts++;
+        totalAttempts = 0;
 
         setOptions();
         saveUserInformation();

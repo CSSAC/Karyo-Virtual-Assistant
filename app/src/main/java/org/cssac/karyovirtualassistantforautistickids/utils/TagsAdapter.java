@@ -50,7 +50,6 @@ public class TagsAdapter extends BaseAdapter {
         }
 
         final TextView nameTextView = (TextView)convertView.findViewById(R.id.textview_book_name);
-        final TextView authorTextView = (TextView)convertView.findViewById(R.id.textview_book_author);
         final ImageView imageViewFavorite = (ImageView)convertView.findViewById(R.id.imageview_favorite);
 
         int dr = mContext.getResources().getIdentifier("drawable/" + tags[idx] + "_tag", null, mContext.getPackageName());
@@ -58,7 +57,6 @@ public class TagsAdapter extends BaseAdapter {
         imageViewFavorite.setImageDrawable(drawable);
 
         nameTextView.setText(tags[idx]);
-        authorTextView.setText("Book Author");
 
         return convertView;
     }

@@ -2,10 +2,13 @@ package org.cssac.karyovirtualassistantforautistickids;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ import org.cssac.karyovirtualassistantforautistickids.constants.Tags;
 import org.cssac.karyovirtualassistantforautistickids.databaseHandlers.MCQHandler;
 import org.cssac.karyovirtualassistantforautistickids.models.MCQProblem;
 import org.cssac.karyovirtualassistantforautistickids.models.UserInformation;
+import org.cssac.karyovirtualassistantforautistickids.utils.BounceInterpolator;
 import org.cssac.karyovirtualassistantforautistickids.utils.TagsAdapter;
 
 import java.io.Serializable;
@@ -32,16 +36,24 @@ public class LearningAppHomeActivity extends AppCompatActivity {
 
     private static final String LIST_MCQ = "LIST_MCQ";
     private static final String USER_INFORMATION = "USER_INFORMATION";
+    private static final int BOUNCE_DELAY = 500;
 
     MCQHandler mcqHandler;
     Dialog loadScreenDialog;
     UserInformation userInformation;
     Intent intent;
 
+    Animation animationBounce;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_app_home);
+
+
+        animationBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        BounceInterpolator interpolator = new BounceInterpolator(0.2, 20.0);
+        animationBounce.setInterpolator(interpolator);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         TagsAdapter tagsAdapter = new TagsAdapter(this);
@@ -49,13 +61,19 @@ public class LearningAppHomeActivity extends AppCompatActivity {
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-                String tag = Tags.TAGS[position];
+            public void onItemClick(AdapterView parent, final View view, int position, long id) {
+                final String tag = Tags.TAGS[position];
+                final Handler handler = new Handler();
+                view.startAnimation(animationBounce);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<MCQProblem> mcqProblemList = mcqHandler.getMCQByTagAndLevel(tag, userInformation.level.get(tag));
+                        intent.putExtra(LIST_MCQ, (Serializable) mcqProblemList);
+                        startActivity(intent);
 
-                List<MCQProblem> mcqProblemList = mcqHandler.getMCQByTagAndLevel(tag, userInformation.level.get(tag));
-                Toast.makeText(LearningAppHomeActivity.this, Integer.toString(mcqProblemList.size()), Toast.LENGTH_SHORT).show();
-                intent.putExtra(LIST_MCQ, (Serializable) mcqProblemList);
-                startActivity(intent);
+                    }
+                }, BOUNCE_DELAY);
             }
         });
 
@@ -108,16 +126,9 @@ public class LearningAppHomeActivity extends AppCompatActivity {
         });
     }
 
-    public void toMCQGameActivity(View view) {
-        List<MCQProblem> mcqProblemList = mcqHandler.getMCQByTagAndLevel("colour", userInformation.level.get("colour"));
-        Log.i("SIZE  ", Integer.toString(mcqProblemList.size()));
-        TextView textView = (TextView) findViewById(R.id.textView);
-//        Log.i("Statement", mcqProblemList.get(0).getStatement());
-        textView.setText(Integer.toString(mcqProblemList.size()));
-        Log.i("LEVEL", Integer.toString(userInformation.level.get("colour")));
-
-        intent.putExtra(LIST_MCQ, (Serializable) mcqProblemList);
-//        intent.putExtra(USER_INFORMATION, (Serializable) userInformation);
+    public void toAnalyticsActivity(View view) {
+        Intent intent = new Intent(this, AnalyticsActivity.class);
+        intent.putExtra(USER_INFORMATION, (Serializable) userInformation);
         startActivity(intent);
     }
 }
