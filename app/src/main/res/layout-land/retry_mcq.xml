@@ -1,30 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_learning_home">
 
-    <Button
-        android:id="@+id/idRetryBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:onClick="retryLevel"
-        android:text="Replay"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif"
+        android:layout_width="119dp"
+        android:layout_height="101dp"
+        android:layout_marginStart="252dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/jump_gif"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/idBackBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:id="@+id/backToMainMenuButton"
+        android:layout_width="240dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="204dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/back_to_main_menu_button"
         android:onClick="backToMainMenu"
-        android:text="Back to Main Menu"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idRetryBtn" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/retryButton"
+        app:srcCompat="@drawable/back_to_main_menu_button" />
+
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="180dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="236dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/retry_button"
+        android:onClick="retryLevel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gif"
+        app:layout_constraintVertical_bias="0.056"
+        app:srcCompat="@drawable/retry_button" />
+
 </android.support.constraint.ConstraintLayout>

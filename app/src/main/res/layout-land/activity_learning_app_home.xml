@@ -33,15 +33,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/select_a_category" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="toAnalyticsActivity"
-        android:text="Button"
+    <ImageView
+        android:id="@+id/settingsButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/settings_button" />
+
+    <ImageView
+        android:id="@+id/analyticsButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/analytics_button" />
 
 </android.support.constraint.ConstraintLayout>

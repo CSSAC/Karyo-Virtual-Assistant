@@ -71,7 +71,7 @@ public class AnalyticsTagsAdapter extends BaseAdapter{
         levelView.setText(levelText);
         attemptsView.setText(attemptsText);
         int accuracy = userInformation.attempts.get(tags[idx])==0?0:(userInformation.correctAttempts.get(tags[idx])*100)/userInformation.attempts.get(tags[idx]);
-        accuracyView.setText(String.format("%d%", accuracy));
+        accuracyView.setText(String.format("%d", accuracy));
 
         return convertView;
     }

@@ -3,11 +3,13 @@ package org.cssac.karyovirtualassistantforautistickids;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -222,7 +224,8 @@ public class MCQGameActivity extends AppCompatActivity {
 
     public void correctAttempt() {
         // Reinforcement
-        gif.setImageResource(R.drawable.smiley_jump);
+        if (mcqCounter%2==1) gif.setImageResource(R.drawable.thumbs_up_gif);
+        else gif.setImageResource(R.drawable.jump_gif);
         numberCorrect++;
         revealCorrectImage();
         nextMCQ();
@@ -368,7 +371,7 @@ public class MCQGameActivity extends AppCompatActivity {
         }, REWARD_SCREEN_DELAY);
     }
 
-    public void retryLevel(View v) {
+    public void retryLevel(View view) {
         mcqCounter = 0;
         numberCorrect = 0;
         totalAttempts = 0;
@@ -399,9 +402,14 @@ public class MCQGameActivity extends AppCompatActivity {
                 });
     }
 
-    public void backToMainMenu(View v) {
+    public void backToMainMenu(View view) {
         saveUserInformation();
         finish();
         startActivity(new Intent(this, LearningAppHomeActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

@@ -28,19 +28,24 @@
             android:name=".UserLoginActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/MyTheme"></activity>
+            android:theme="@style/MyTheme" />
         <activity android:name=".AssistantActivity" />
         <activity
             android:name=".LearningAppHomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape"
-            android:theme="@style/MyTheme"></activity>
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".MCQGameActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape"
             android:theme="@style/MyTheme" />
-        <activity android:name=".AnalyticsActivity"
+        <activity
+            android:name=".AnalyticsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:theme="@style/MyTheme" />
+        <activity android:name=".SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape"
             android:theme="@style/MyTheme"></activity>
