@@ -1,22 +1,25 @@
 package org.cssac.karyovirtualassistantforautistickids;
 
+import android.app.Dialog;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.cssac.karyovirtualassistantforautistickids.constants.Tags;
 import org.cssac.karyovirtualassistantforautistickids.models.UserInformation;
 import org.cssac.karyovirtualassistantforautistickids.utils.AnalyticsTagsAdapter;
-import org.cssac.karyovirtualassistantforautistickids.utils.TagsAdapter;
+
+import java.io.Serializable;
 
 public class AnalyticsActivity extends AppCompatActivity {
     private static final String USER_INFORMATION = "USER_INFORMATION";
+
+    Dialog analyticsScreen;
+    String selectedTag;
 
     UserInformation userInformation;
 
@@ -60,6 +63,21 @@ public class AnalyticsActivity extends AppCompatActivity {
         String accuracyText = String.format("%d Percent\nAccuracy", acc);
         accuracyView.setText(accuracyText);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                selectedTag = Tags.TAGS[position];
+                showGraphAnalytics();
+            }
+        });
+
+    }
+
+    public void showGraphAnalytics() {
+        Intent intent = new Intent(this, GraphViewAnalytics.class);
+        intent.putExtra("ANALYTICS_LIST", (Serializable) userInformation.correctList.get(selectedTag));
+        intent.putExtra("TITLE", (Serializable) selectedTag);
+        startActivity(intent);
     }
 
     @Override

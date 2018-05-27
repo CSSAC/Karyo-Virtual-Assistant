@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
+        multiDexEnabled true
         applicationId "org.cssac.karyovirtualassistantforautistickids"
         minSdkVersion 15
         targetSdkVersion 26
@@ -24,18 +25,22 @@ dependencies {
     compile 'com.google.firebase:firebase-database:11.8.0'
     // SQLITE ASSET HELPER
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
-
     compile 'com.android.support:design:26.1.0'
-
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.11'
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+    // GraphView
+    //    implementation 'com.jjoe64:graphview:4.2.2'
+    implementation files('libs/GraphView-4.1.0.jar')
 }
+
+
+
+
 
 
 apply plugin: 'com.google.gms.google-services'

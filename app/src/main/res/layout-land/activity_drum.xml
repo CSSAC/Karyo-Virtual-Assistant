@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    tools:context="org.cssac.karyovirtualassistantforautistickids.DrumActivity">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif"
+        android:layout_width="93dp"
+        android:layout_height="75dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/smile_jump_x3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/drumHigh"
+        android:layout_width="172dp"
+        android:layout_height="182dp"
+        android:layout_marginBottom="36dp"
+        android:src="@drawable/drum"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/drumMid"
+        android:layout_width="192dp"
+        android:layout_height="204dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/drum"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/drumHigh" />
+
+    <ImageView
+        android:id="@+id/drumLow"
+        android:layout_width="208dp"
+        android:layout_height="236dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/drum"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/drumMid"
+        app:layout_constraintLeft_toLeftOf="parent" />
+</android.support.constraint.ConstraintLayout>

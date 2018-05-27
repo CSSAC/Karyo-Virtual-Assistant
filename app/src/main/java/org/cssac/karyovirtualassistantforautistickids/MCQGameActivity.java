@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,9 @@ import org.cssac.karyovirtualassistantforautistickids.models.UserInformation;
 import org.cssac.karyovirtualassistantforautistickids.utils.TextToSpeechModule;
 import org.cssac.karyovirtualassistantforautistickids.utils.BounceInterpolator;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -43,7 +46,7 @@ public class MCQGameActivity extends AppCompatActivity {
     private static final String ID_OPTION_3 = "idOption3";
     private static final int LOAD_SCREEN_DELAY = 5000;
     private static final int SPEECH_DELAY = 0;
-    private static final int SET_OPTIONS_DELAY = 1000;
+    private static final int SET_OPTIONS_DELAY = 2000;
     private static final int RETRY_SCREEN_DELAY = 1000;
     private static final int REWARD_SCREEN_DELAY = 3000;
 
@@ -76,6 +79,11 @@ public class MCQGameActivity extends AppCompatActivity {
     Animation animationBlink;
     TextToSpeechModule ttsm;
 
+    ArrayList<MediaPlayer> cheer;
+    MediaPlayer finalCheer, wrongAnswer;
+    int cheerCnt;
+    private static final int CHEER_SIZE = 6;
+
     int mcqAttempt;
 
     @Override
@@ -99,6 +107,17 @@ public class MCQGameActivity extends AppCompatActivity {
         prompter2.setVisibility(View.INVISIBLE);
         prompter3.setVisibility(View.INVISIBLE);
         gif = (GifImageView) findViewById(R.id.gif);
+
+        cheer = new ArrayList<>();
+        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.nice_work));
+        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.wow1));
+        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.unbelievable));
+        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.woohoo));
+        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.yay));
+        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.wow2));
+        finalCheer = MediaPlayer.create(getApplicationContext(), R.raw.applause);
+        wrongAnswer = MediaPlayer.create(getApplicationContext(), R.raw.wrong);
+        cheerCnt = 0;
 
         controlFrozen = false;
 
@@ -213,6 +232,7 @@ public class MCQGameActivity extends AppCompatActivity {
 
     public void wrongAttempt() {
         mcqAttempt++;
+        wrongAnswer.start();
         if (level==1 || mcqAttempt==2) {
             revealCorrectImage();
             nextMCQ();
@@ -226,6 +246,9 @@ public class MCQGameActivity extends AppCompatActivity {
         // Reinforcement
         if (mcqCounter%2==1) gif.setImageResource(R.drawable.thumbs_up_gif);
         else gif.setImageResource(R.drawable.jump_gif);
+        cheer.get(cheerCnt).start();
+        cheerCnt++;
+        if (cheerCnt==CHEER_SIZE) cheerCnt = 0;
         numberCorrect++;
         revealCorrectImage();
         nextMCQ();
@@ -322,15 +345,16 @@ public class MCQGameActivity extends AppCompatActivity {
             setOptionsAfterDelay();
         }
         else {
+            finalCheer.start();
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     userInformation.correctAttempts.put(tag, userInformation.correctAttempts.get(tag)+numberCorrect);
                     userInformation.attempts.put(tag, userInformation.attempts.get(tag)+totalAttempts);
+                    userInformation.correctList.get(tag).add((numberCorrect*10)/totalAttempts);
                     int per = (numberCorrect*100)/totalAttempts;
 
-                    Log.i("Percentange", Integer.toString(per));
                     if (per >= LEVEL_UP_THRESHOLD) {
                         levelUp();
                     }
@@ -356,10 +380,6 @@ public class MCQGameActivity extends AppCompatActivity {
 
         saveUserInformation();
         showLevelUpScreen();
-//        ImageView idReward = (ImageView) findViewById(R.id.idReward);
-//        int dr = getResources().getIdentifier(DRAWABLE + "apple", null, getPackageName());
-//        drawable = getResources().getDrawable(dr);
-//        idReward.setImageDrawable(drawable);
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -367,6 +387,11 @@ public class MCQGameActivity extends AppCompatActivity {
             public void run() {
                 levelUpScreenDialog.dismiss();
                 finish();
+                Random random = new Random();
+                int choice = random.nextInt(3);
+                if (choice==0) startActivity(new Intent(getApplicationContext(), DrumActivity.class));
+                else if (choice==1) startActivity(new Intent(getApplicationContext(), PianoActivity.class));
+                else startActivity(new Intent(getApplicationContext(), BubblePopActivity.class));
             }
         }, REWARD_SCREEN_DELAY);
     }

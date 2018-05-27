@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_learning_home"
+    tools:context="org.cssac.karyovirtualassistantforautistickids.PianoActivity">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif"
+        android:layout_width="93dp"
+        android:layout_height="75dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/smile_jump_x3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/aNote"
+        android:layout_width="70dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/white_key" />
+
+    <ImageView
+        android:id="@+id/bNote"
+        android:layout_width="70dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="@+id/aSharpNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/white_key" />
+
+    <ImageView
+        android:id="@+id/aSharpNote"
+        android:layout_width="55dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="@+id/aNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/black_key" />
+
+
+    <ImageView
+        android:id="@+id/cNote"
+        android:layout_width="70dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="@+id/aSharpNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/white_key" />
+
+    <ImageView
+        android:id="@+id/dNote"
+        android:layout_width="70dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="@+id/cSharpNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/white_key" />
+
+    <ImageView
+        android:id="@+id/eNote"
+        android:layout_width="70dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/dSharpNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/white_key" />
+
+    <ImageView
+        android:id="@+id/fNote"
+        android:layout_width="70dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="@+id/eNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/white_key" />
+
+
+    <ImageView
+        android:id="@+id/cSharpNote"
+        android:layout_width="55dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="@+id/cNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/black_key" />
+
+    <ImageView
+        android:id="@+id/dSharpNote"
+        android:layout_width="55dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toEndOf="@+id/cNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/black_key" />
+
+    <ImageView
+        android:id="@+id/gNote"
+        android:layout_width="70dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="142dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="@+id/eNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/white_key" />
+
+    <ImageView
+        android:id="@+id/fSharpNote"
+        android:layout_width="55dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="186dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toEndOf="@+id/cNote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/black_key" />
+
+</android.support.constraint.ConstraintLayout>

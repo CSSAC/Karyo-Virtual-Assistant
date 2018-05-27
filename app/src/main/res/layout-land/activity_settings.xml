@@ -9,42 +9,52 @@
 
     <Button
         android:id="@+id/resetGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="123dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="288dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/reset_button"
         android:onClick="resetGame"
-        android:text="RESET GAME"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/musicToggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_width="123dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="232dp"
         android:layout_marginTop="24dp"
-        android:text="MUSIC TOGGLE"
+        android:background="@drawable/music_toggle_button"
+        android:onClick="toggleMusic"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resetGame" />
 
     <Button
         android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="123dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="232dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/logout_button"
         android:onClick="logout"
-        android:text="LOGOUT"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/musicToggle" />
 
     <Button
         android:id="@+id/about"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="ABOUT"
-        app:layout_constraintTop_toBottomOf="@+id/logout"
-        tools:layout_editor_absoluteX="24dp" />
+        android:layout_width="123dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/about_button"
+        android:onClick="aboutApp"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logout" />
 </android.support.constraint.ConstraintLayout>

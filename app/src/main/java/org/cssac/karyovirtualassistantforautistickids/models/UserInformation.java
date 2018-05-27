@@ -21,6 +21,8 @@ public class UserInformation implements Serializable{
     public HashMap<String, Integer> attempts;
     public HashMap<String, Integer> correctAttempts;
 
+    public HashMap<String, List<Integer> > correctList;
+
     public UserInformation() {
 
     }
@@ -67,5 +69,22 @@ public class UserInformation implements Serializable{
         correctAttempts.put("vegetables", 0);
         correctAttempts.put("numbers", 0);
         correctAttempts.put("emotions", 0);
+
+        correctList = new HashMap<>();
+        correctList.put("colour", new ArrayList<Integer>());
+        correctList.put("shapes", new ArrayList<Integer>());
+        correctList.put("animals", new ArrayList<Integer>());
+        correctList.put("fruits", new ArrayList<Integer>());
+        correctList.put("vegetables", new ArrayList<Integer>());
+        correctList.put("numbers", new ArrayList<Integer>());
+        correctList.put("emotions", new ArrayList<Integer>());
+
+        correctList.get("colour").add(0);
+        correctList.get("shapes").add(0);
+        correctList.get("animals").add(0);
+        correctList.get("fruits").add(0);
+        correctList.get("numbers").add(0);
+        correctList.get("vegetables").add(0);
+        correctList.get("emotions").add(0);
     }
 }

@@ -2,7 +2,6 @@ package org.cssac.karyovirtualassistantforautistickids;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +46,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
     Dialog loadScreenDialog;
     UserInformation userInformation;
     Intent intent;
+    Boolean isMusicOn;
 
     Animation animationBounce;
 
@@ -57,6 +57,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning_app_home);
 
+        isMusicOn = ((MyApplicationIsMyApplicationNoneOfYourApplication) this.getApplication()).getMusic();
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.butterfly_music);
 
         animationBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
@@ -80,7 +81,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
                     public void run() {
                         List<MCQProblem> mcqProblemList = mcqHandler.getMCQByTagAndLevel(tag, userInformation.level.get(tag));
                         intent.putExtra(LIST_MCQ, (Serializable) mcqProblemList);
-                        mediaPlayer.stop();
+                        if (isMusicOn) mediaPlayer.stop();
                         finish();
                         startActivity(intent);
 
@@ -142,7 +143,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
                 intent.putExtra(USER_INFORMATION, (Serializable) userInformation);
                 Log.i("NAME", userInformation.firstName);
                 loadScreenDialog.dismiss();
-                mediaPlayer.start();
+                if (isMusicOn) mediaPlayer.start();
                 mediaPlayer.setLooping(true);
             }
 
@@ -157,7 +158,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
     public void toAnalyticsActivity() {
         Intent intent = new Intent(this, AnalyticsActivity.class);
         intent.putExtra(USER_INFORMATION, (Serializable) userInformation);
-        mediaPlayer.stop();
+        if (isMusicOn) mediaPlayer.stop();
         finish();
         startActivity(intent);
     }
@@ -165,7 +166,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
     public void toSettingsActivity() {
         Intent intent = new Intent(this, SettingsActivity.class);
         intent.putExtra(USER_INFORMATION, (Serializable) userInformation);
-        mediaPlayer.stop();
+        if (isMusicOn) mediaPlayer.stop();
         finish();
         startActivity(intent);
     }
