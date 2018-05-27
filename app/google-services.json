@@ -1,27 +1,31 @@
 {
   "project_info": {
-    "project_number": "729682496687",
-    "firebase_url": "https://karyo-virtual-assistant.firebaseio.com",
-    "project_id": "karyo-virtual-assistant",
-    "storage_bucket": "karyo-virtual-assistant.appspot.com"
+    "project_number": "603069448278",
+    "firebase_url": "https://kayrio-learning.firebaseio.com",
+    "project_id": "kayrio-learning",
+    "storage_bucket": "kayrio-learning.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:729682496687:android:e9a829cb59751566",
+        "mobilesdk_app_id": "1:603069448278:android:e9a829cb59751566",
         "android_client_info": {
           "package_name": "org.cssac.karyovirtualassistantforautistickids"
         }
       },
       "oauth_client": [
         {
-          "client_id": "729682496687-fujrhbajjf0eti2doeavi0o3fr41rq6o.apps.googleusercontent.com",
+          "client_id": "603069448278-d1gn5ffv6u2ifmpt9n92mqt17h0c97vt.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "603069448278-d1gn5ffv6u2ifmpt9n92mqt17h0c97vt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAYPN6O4AzJMAG2M4qr-fqcYO-jtCclaJI"
+          "current_key": "AIzaSyAqtO2tONFxSwuazRfAHL3xoOL_MTGtb0o"
         }
       ],
       "services": {
