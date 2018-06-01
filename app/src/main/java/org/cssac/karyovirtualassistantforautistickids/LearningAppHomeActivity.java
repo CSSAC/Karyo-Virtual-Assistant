@@ -58,7 +58,15 @@ public class LearningAppHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_learning_app_home);
 
         isMusicOn = ((MyApplicationIsMyApplicationNoneOfYourApplication) this.getApplication()).getMusic();
-        if (mediaPlayer!=null) mediaPlayer.reset();
+
+        if (mediaPlayer != null){
+            if (mediaPlayer.isPlaying()||mediaPlayer.isLooping()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.butterfly_music);
 
         animationBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);

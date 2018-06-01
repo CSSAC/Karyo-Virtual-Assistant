@@ -1,7 +1,5 @@
 package org.cssac.karyovirtualassistantforautistickids.models;
 
-import android.nfc.Tag;
-
 import org.cssac.karyovirtualassistantforautistickids.constants.Tags;
 
 import java.io.Serializable;

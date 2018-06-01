@@ -17,8 +17,10 @@ import java.io.Serializable;
 
 public class AnalyticsActivity extends AppCompatActivity {
     private static final String USER_INFORMATION = "USER_INFORMATION";
+    private static final String SCORE_LIST = "SCORE_LIST";
+    private static final String ACCURACY_LIST = "ACCURACY_LIST";
+    private static final String TITLE = "TITLE";
 
-    Dialog analyticsScreen;
     String selectedTag;
 
     UserInformation userInformation;
@@ -75,9 +77,9 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     public void showGraphAnalytics() {
         Intent intent = new Intent(this, GraphViewAnalytics.class);
-        intent.putExtra("SCORE_LIST", (Serializable) userInformation.correctList.get(selectedTag));
-        intent.putExtra("ACCURACY_LIST", (Serializable) userInformation.accuracy.get(selectedTag));
-        intent.putExtra("TITLE", (Serializable) selectedTag);
+        intent.putExtra(SCORE_LIST, (Serializable) userInformation.correctList.get(selectedTag));
+        intent.putExtra(ACCURACY_LIST, (Serializable) userInformation.accuracy.get(selectedTag));
+        intent.putExtra(TITLE, (Serializable) selectedTag);
         startActivity(intent);
     }
 

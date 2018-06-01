@@ -32,7 +32,14 @@ public class BubblePopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble_pop);
 
-        if (bubble_pop!=null) bubble_pop.reset();
+        if (bubble_pop != null){
+            if (bubble_pop.isPlaying()||bubble_pop.isLooping()) {
+                bubble_pop.stop();
+            }
+            bubble_pop.release();
+            bubble_pop = null;
+        }
+
         bubble_pop = MediaPlayer.create(this, R.raw.bubble_pop);
 
         gif = (GifImageView) findViewById(R.id.gif);

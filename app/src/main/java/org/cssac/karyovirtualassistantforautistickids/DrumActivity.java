@@ -34,11 +34,31 @@ public class DrumActivity extends AppCompatActivity {
         bongoMid = new MediaPlayer[MEDIA_COUNT];
         bongoHigh = new MediaPlayer[MEDIA_COUNT];
         for (int i = 0; i < MEDIA_COUNT; i++) {
-            if (bongoLow[i]!=null) bongoLow[i].reset();
-            if (bongoMid[i]!=null) bongoMid[i].reset();
-            if (bongoHigh[i]!=null) bongoHigh[i].reset();
+            if (bongoLow[i] != null){
+                if (bongoLow[i].isPlaying()||bongoLow[i].isLooping()) {
+                    bongoLow[i].stop();
+                }
+                bongoLow[i].release();
+                bongoLow[i] = null;
+            }
             bongoLow[i] = MediaPlayer.create(this, R.raw.bongolow);
+
+            if (bongoMid[i] != null){
+                if (bongoMid[i].isPlaying()||bongoMid[i].isLooping()) {
+                    bongoMid[i].stop();
+                }
+                bongoMid[i].release();
+                bongoMid[i] = null;
+            }
             bongoMid[i] = MediaPlayer.create(this, R.raw.bongomid);
+
+            if (bongoHigh[i] != null){
+                if (bongoHigh[i].isPlaying()||bongoHigh[i].isLooping()) {
+                    bongoHigh[i].stop();
+                }
+                bongoHigh[i].release();
+                bongoHigh[i] = null;
+            }
             bongoHigh[i] = MediaPlayer.create(this, R.raw.bongohigh);
         }
 
@@ -75,6 +95,26 @@ public class DrumActivity extends AppCompatActivity {
         handler2.postDelayed(new Runnable() {
             @Override
             public void run() {
+                for (int i=0;i<MEDIA_COUNT;i++) {
+                    if (bongoLow[i]!=null) {
+                        bongoLow[i].stop();
+                        bongoLow[i].reset();
+                        bongoLow[i].release();
+                        bongoLow[i] = null;
+                    }
+                    if (bongoMid[i]!=null) {
+                        bongoMid[i].stop();
+                        bongoMid[i].reset();
+                        bongoMid[i].release();
+                        bongoMid[i] = null;
+                    }
+                    if (bongoHigh[i]!=null) {
+                        bongoHigh[i].stop();
+                        bongoHigh[i].reset();
+                        bongoHigh[i].release();
+                        bongoHigh[i] = null;
+                    }
+                }
                 loadScreenDialog.dismiss();
                 finish();
                 startActivity(new Intent(getApplicationContext(), LearningAppHomeActivity.class));

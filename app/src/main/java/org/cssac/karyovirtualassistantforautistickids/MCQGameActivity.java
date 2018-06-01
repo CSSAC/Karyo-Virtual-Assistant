@@ -49,6 +49,7 @@ public class MCQGameActivity extends AppCompatActivity {
     private static final int SET_OPTIONS_DELAY = 2000;
     private static final int RETRY_SCREEN_DELAY = 1000;
     private static final int REWARD_SCREEN_DELAY = 3000;
+    private static final int CHEER_SIZE = 6;
 
     private static final int LEVEL_UP_THRESHOLD = 80;
 
@@ -79,10 +80,8 @@ public class MCQGameActivity extends AppCompatActivity {
     Animation animationBlink;
     TextToSpeechModule ttsm;
 
-    ArrayList<MediaPlayer> cheer;
-    MediaPlayer finalCheer, wrongAnswer;
+    MediaPlayer finalCheer, wrongAnswer, chr;
     int cheerCnt;
-    private static final int CHEER_SIZE = 6;
 
     int mcqAttempt;
 
@@ -108,14 +107,24 @@ public class MCQGameActivity extends AppCompatActivity {
         prompter3.setVisibility(View.INVISIBLE);
         gif = (GifImageView) findViewById(R.id.gif);
 
-        cheer = new ArrayList<>();
-        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.nice_work));
-        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.wow1));
-        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.unbelievable));
-        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.woohoo));
-        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.yay));
-        cheer.add(MediaPlayer.create(getApplicationContext(), R.raw.wow2));
+        if (finalCheer != null){
+            if (finalCheer.isPlaying()||finalCheer.isLooping()) {
+                finalCheer.stop();
+            }
+            finalCheer.release();
+            finalCheer = null;
+        }
+
         finalCheer = MediaPlayer.create(getApplicationContext(), R.raw.applause);
+
+        if (wrongAnswer != null){
+            if (wrongAnswer.isPlaying()||wrongAnswer.isLooping()) {
+                wrongAnswer.stop();
+            }
+            wrongAnswer.release();
+            wrongAnswer = null;
+        }
+
         wrongAnswer = MediaPlayer.create(getApplicationContext(), R.raw.wrong);
         cheerCnt = 0;
 
@@ -246,9 +255,11 @@ public class MCQGameActivity extends AppCompatActivity {
         // Reinforcement
         if (mcqCounter%2==1) gif.setImageResource(R.drawable.thumbs_up_gif);
         else gif.setImageResource(R.drawable.jump_gif);
-        cheer.get(cheerCnt).start();
+
+        chr.start();
         cheerCnt++;
         if (cheerCnt==CHEER_SIZE) cheerCnt = 0;
+
         numberCorrect++;
         revealCorrectImage();
         nextMCQ();
@@ -324,6 +335,21 @@ public class MCQGameActivity extends AppCompatActivity {
         }
 
         mcqAttempt = 0;
+
+        if (chr != null){
+            if (chr.isPlaying()||chr.isLooping()) {
+                chr.stop();
+            }
+            chr.release();
+            chr = null;
+        }
+
+        if (cheerCnt==0) chr = MediaPlayer.create(this, R.raw.nice_work);
+        else if (cheerCnt==1) chr = MediaPlayer.create(this, R.raw.wow1);
+        else if (cheerCnt==2) chr = MediaPlayer.create(this, R.raw.unbelievable);
+        else if (cheerCnt==3) chr = MediaPlayer.create(this, R.raw.woohoo);
+        else if (cheerCnt==4) chr = MediaPlayer.create(this, R.raw.yay);
+        else if (cheerCnt==5) chr = MediaPlayer.create(this, R.raw.wow2);
     }
 
     public void setOptionsAfterDelay() {
