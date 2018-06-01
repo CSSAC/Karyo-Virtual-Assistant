@@ -32,6 +32,7 @@ public class BubblePopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble_pop);
 
+        if (bubble_pop!=null) bubble_pop.reset();
         bubble_pop = MediaPlayer.create(this, R.raw.bubble_pop);
 
         gif = (GifImageView) findViewById(R.id.gif);
@@ -47,6 +48,7 @@ public class BubblePopActivity extends AppCompatActivity {
                 bubble_pop.start();
                 view.setVisibility(View.INVISIBLE);
                 score++;
+
                 if (score%7==0) gif.setImageResource(R.drawable.smile_jump_x3);
             }
         });

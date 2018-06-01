@@ -353,6 +353,7 @@ public class MCQGameActivity extends AppCompatActivity {
                     userInformation.correctAttempts.put(tag, userInformation.correctAttempts.get(tag)+numberCorrect);
                     userInformation.attempts.put(tag, userInformation.attempts.get(tag)+totalAttempts);
                     userInformation.correctList.get(tag).add((numberCorrect*10)/totalAttempts);
+                    userInformation.accuracy.get(tag).add((userInformation.correctAttempts.get(tag)*100)/userInformation.attempts.get(tag));
                     int per = (numberCorrect*100)/totalAttempts;
 
                     if (per >= LEVEL_UP_THRESHOLD) {
@@ -366,7 +367,7 @@ public class MCQGameActivity extends AppCompatActivity {
         }
     }
 
-    // to-do
+    // shitty code
     public void levelUp() {
         Log.i("Level Up", "UPDATE");
         if (level<userInformation.maxLevel.get(tag)) {
@@ -388,9 +389,8 @@ public class MCQGameActivity extends AppCompatActivity {
                 levelUpScreenDialog.dismiss();
                 finish();
                 Random random = new Random();
-                int choice = random.nextInt(3);
+                int choice = random.nextInt(2);
                 if (choice==0) startActivity(new Intent(getApplicationContext(), DrumActivity.class));
-                else if (choice==1) startActivity(new Intent(getApplicationContext(), PianoActivity.class));
                 else startActivity(new Intent(getApplicationContext(), BubblePopActivity.class));
             }
         }, REWARD_SCREEN_DELAY);

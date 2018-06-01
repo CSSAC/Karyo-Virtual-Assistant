@@ -34,6 +34,9 @@ public class DrumActivity extends AppCompatActivity {
         bongoMid = new MediaPlayer[MEDIA_COUNT];
         bongoHigh = new MediaPlayer[MEDIA_COUNT];
         for (int i = 0; i < MEDIA_COUNT; i++) {
+            if (bongoLow[i]!=null) bongoLow[i].reset();
+            if (bongoMid[i]!=null) bongoMid[i].reset();
+            if (bongoHigh[i]!=null) bongoHigh[i].reset();
             bongoLow[i] = MediaPlayer.create(this, R.raw.bongolow);
             bongoMid[i] = MediaPlayer.create(this, R.raw.bongomid);
             bongoHigh[i] = MediaPlayer.create(this, R.raw.bongohigh);

@@ -1,5 +1,9 @@
 package org.cssac.karyovirtualassistantforautistickids.models;
 
+import android.nfc.Tag;
+
+import org.cssac.karyovirtualassistantforautistickids.constants.Tags;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +26,7 @@ public class UserInformation implements Serializable{
     public HashMap<String, Integer> correctAttempts;
 
     public HashMap<String, List<Integer> > correctList;
+    public HashMap<String, List<Integer> > accuracy;
 
     public UserInformation() {
 
@@ -35,56 +40,24 @@ public class UserInformation implements Serializable{
         this.dobYear = dobYear;
 
         level = new HashMap<>();
-        level.put("colour", 1);
-        level.put("shapes", 1);
-        level.put("animals", 1);
-        level.put("fruits", 1);
-        level.put("vegetables", 1);
-        level.put("numbers", 1);
-        level.put("emotions", 1);
-
         maxLevel = new HashMap<>();
-        maxLevel.put("colour", 2);
-        maxLevel.put("shapes", 2);
-        maxLevel.put("animals", 2);
-        maxLevel.put("fruits", 2);
-        maxLevel.put("vegetables", 2);
+        attempts = new HashMap<>();
+        correctAttempts = new HashMap<>();
+        correctList = new HashMap<>();
+        accuracy = new HashMap<>();
+
+        for (int i=0;i< Tags.TAGS.length;i++) {
+            level.put(Tags.TAGS[i], 1);
+            maxLevel.put(Tags.TAGS[i], 3);
+            attempts.put(Tags.TAGS[i], 0);
+            correctAttempts.put(Tags.TAGS[i], 0);
+            correctList.put(Tags.TAGS[i], new ArrayList<Integer>());
+            correctList.get(Tags.TAGS[i]).add(0);;
+            accuracy.put(Tags.TAGS[i], new ArrayList<Integer>());
+            accuracy.get(Tags.TAGS[i]).add(0);
+        }
+
         maxLevel.put("numbers", 2);
         maxLevel.put("emotions", 2);
-
-        attempts = new HashMap<>();
-        attempts.put("colour", 0);
-        attempts.put("shapes", 0);
-        attempts.put("animals", 0);
-        attempts.put("fruits", 0);
-        attempts.put("vegetables", 0);
-        attempts.put("numbers", 0);
-        attempts.put("emotions", 0);
-
-        correctAttempts = new HashMap<>();
-        correctAttempts.put("colour", 0);
-        correctAttempts.put("shapes", 0);
-        correctAttempts.put("animals", 0);
-        correctAttempts.put("fruits", 0);
-        correctAttempts.put("vegetables", 0);
-        correctAttempts.put("numbers", 0);
-        correctAttempts.put("emotions", 0);
-
-        correctList = new HashMap<>();
-        correctList.put("colour", new ArrayList<Integer>());
-        correctList.put("shapes", new ArrayList<Integer>());
-        correctList.put("animals", new ArrayList<Integer>());
-        correctList.put("fruits", new ArrayList<Integer>());
-        correctList.put("vegetables", new ArrayList<Integer>());
-        correctList.put("numbers", new ArrayList<Integer>());
-        correctList.put("emotions", new ArrayList<Integer>());
-
-        correctList.get("colour").add(0);
-        correctList.get("shapes").add(0);
-        correctList.get("animals").add(0);
-        correctList.get("fruits").add(0);
-        correctList.get("numbers").add(0);
-        correctList.get("vegetables").add(0);
-        correctList.get("emotions").add(0);
     }
 }

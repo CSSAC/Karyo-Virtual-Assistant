@@ -58,6 +58,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_learning_app_home);
 
         isMusicOn = ((MyApplicationIsMyApplicationNoneOfYourApplication) this.getApplication()).getMusic();
+        if (mediaPlayer!=null) mediaPlayer.reset();
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.butterfly_music);
 
         animationBounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
@@ -81,7 +82,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
                     public void run() {
                         List<MCQProblem> mcqProblemList = mcqHandler.getMCQByTagAndLevel(tag, userInformation.level.get(tag));
                         intent.putExtra(LIST_MCQ, (Serializable) mcqProblemList);
-                        if (isMusicOn) mediaPlayer.stop();
+                        if (isMusicOn && mediaPlayer!=null) mediaPlayer.stop();
                         finish();
                         startActivity(intent);
 
@@ -158,7 +159,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
     public void toAnalyticsActivity() {
         Intent intent = new Intent(this, AnalyticsActivity.class);
         intent.putExtra(USER_INFORMATION, (Serializable) userInformation);
-        if (isMusicOn) mediaPlayer.stop();
+        if (isMusicOn && mediaPlayer!=null) mediaPlayer.stop();
         finish();
         startActivity(intent);
     }
@@ -166,7 +167,7 @@ public class LearningAppHomeActivity extends AppCompatActivity {
     public void toSettingsActivity() {
         Intent intent = new Intent(this, SettingsActivity.class);
         intent.putExtra(USER_INFORMATION, (Serializable) userInformation);
-        if (isMusicOn) mediaPlayer.stop();
+        if (isMusicOn && mediaPlayer!=null) mediaPlayer.stop();
         finish();
         startActivity(intent);
     }

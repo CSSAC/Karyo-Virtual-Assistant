@@ -75,7 +75,8 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     public void showGraphAnalytics() {
         Intent intent = new Intent(this, GraphViewAnalytics.class);
-        intent.putExtra("ANALYTICS_LIST", (Serializable) userInformation.correctList.get(selectedTag));
+        intent.putExtra("SCORE_LIST", (Serializable) userInformation.correctList.get(selectedTag));
+        intent.putExtra("ACCURACY_LIST", (Serializable) userInformation.accuracy.get(selectedTag));
         intent.putExtra("TITLE", (Serializable) selectedTag);
         startActivity(intent);
     }
